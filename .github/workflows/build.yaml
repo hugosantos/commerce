@@ -31,18 +31,3 @@ jobs:
       - name: List Docker images
         run: |
           docker images
-
-  build_within_nscloud:
-    runs-on: ubuntu-latest
-    name: Build within Namespace Cloud
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install and configure Namespace Cloud CLI
-        uses: namespacelabs/nscloud-setup@v0.0.1
-      - name: Build in Namespace Cloud cluster
-        run: |
-          nsc build . --push_to_nsc_repo ns-ecommerce --tag v0.0.1,dev
-      - name: List Docker images
-        run: |
-          docker images

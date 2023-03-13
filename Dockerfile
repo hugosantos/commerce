@@ -7,7 +7,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages ./packages
 COPY site ./site
-RUN pnpm install --frozen-lockfile
+RUN pnpm fetch
+RUN pnpm install -r --offline
 
 FROM base AS build
 WORKDIR /app
