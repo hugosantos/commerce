@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM node:lts-alpine AS base
 RUN apk add libc6-compat gcompat coreutils
 RUN npm i -g pnpm
