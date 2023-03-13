@@ -18,7 +18,7 @@ COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=dependencies /app/packages ./packages
 COPY --from=dependencies /app/site ./site
-RUN --mount=type=cache,target=/app/node_modules/.cache/turbo --mount=cache,target=/root/.local/share/pnpm pnpm build
+RUN --mount=type=cache,target=/app/node_modules/.cache/turbo --mount=type=cache,target=/root/.local/share/pnpm pnpm build
 
 FROM base AS runner
 WORKDIR /app
