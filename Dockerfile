@@ -7,8 +7,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages ./packages
 COPY site ./site
-RUN pnpm fetch
-RUN pnpm install -r --offline
+RUN --mount=type=cache,target=/root/.local/share/pnpm pnpm fetch
+RUN --mount=type=cache,target=/root/.local/share/pnpm pnpm install -r --offline
 
 FROM base AS build
 WORKDIR /app
@@ -16,7 +16,7 @@ COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=dependencies /app/packages ./packages
 COPY --from=dependencies /app/site ./site
-RUN pnpm build
+RUN --mount=type=cache,target=/app/node_modules/.cache/turbo --mount=cache,target=/root/.local/share/pnpm pnpm build
 
 FROM base AS runner
 WORKDIR /app
