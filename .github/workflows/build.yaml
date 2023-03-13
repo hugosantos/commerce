@@ -4,9 +4,22 @@ on: [push, workflow_dispatch]
 permissions:
   id-token: write # This is required for requesting the JWT
 jobs:
+  build_with_docker:
+    runs-on: ubuntu-latest
+    name: Build a sample application with Docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Docker build
+        run: |
+          docker build . --tag ns-ecommerce:v0.0.1
+      - name: List Docker images
+        run: |
+          docker images
+
   build_with_nscloud:
     runs-on: ubuntu-latest
-    name: Build a sample application to Namespace Cloud
+    name: Build a sample application with Namespace Cloud
     steps:
       - name: Checkout
         uses: actions/checkout@v3
