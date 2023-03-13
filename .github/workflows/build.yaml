@@ -6,7 +6,7 @@ permissions:
 jobs:
   build_with_docker:
     runs-on: ubuntu-latest
-    name: Build a sample application with Docker
+    name: Build with Docker
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -17,9 +17,9 @@ jobs:
         run: |
           docker images
 
-  build_with_nscloud:
+  build_with_nscloud_to_docker:
     runs-on: ubuntu-latest
-    name: Build a sample application with Namespace Cloud
+    name: Build with Namespace Cloud push to local registry
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,6 +28,21 @@ jobs:
       - name: Build in Namespace Cloud cluster
         run: |
           nsc build . --push_to_docker ns-ecommerce --tag v0.0.1,dev
+      - name: List Docker images
+        run: |
+          docker images
+
+  build_within_nscloud:
+    runs-on: ubuntu-latest
+    name: Build within Namespace Cloud
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install and configure Namespace Cloud CLI
+        uses: namespacelabs/nscloud-setup@v0.0.1
+      - name: Build in Namespace Cloud cluster
+        run: |
+          nsc build . --push_to_nsc_repo ns-ecommerce --tag v0.0.1,dev
       - name: List Docker images
         run: |
           docker images
