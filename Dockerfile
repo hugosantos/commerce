@@ -10,10 +10,10 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages ./packages
 COPY site ./site
 RUN mkdir -p /root/.local/share/pnpm
-RUN --mount=type=cache,target=/pnpm-cache cp -r /pnpm-cache/* /root/.local/share/pnpm/
+RUN --mount=type=cache,target=/pnpm-cache if [ -n "$(ls -A /pnpm-cache 2>/dev/null)" ] ; then cp -a /pnpm-cache/* /root/.local/share/pnpm/ ; fi
 RUN pnpm fetch
 RUN pnpm install -r --offline
-RUN --mount=type=cache,target=/pnpm-cache cp -r /root/.local/share/pnpm/* /pnpm-cache/
+RUN --mount=type=cache,target=/pnpm-cache cp -a /root/.local/share/pnpm/* /pnpm-cache/
 
 FROM base AS build
 WORKDIR /app
